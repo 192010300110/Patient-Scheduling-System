@@ -1,0 +1,42 @@
+classDiagram
+    class Patient{
+        +int id
+        +str name
+        +str phone_number
+        +str email
+        +List[Appointment] appointments
+    }
+    class Appointment{
+        +int id
+        +datetime datetime
+        +bool confirmed
+        +bool declined
+        +bool rescheduled
+        +Patient patient
+    }
+    class Scheduler{
+        +List[Appointment] get_available_slots()
+        +void update_slot_availability(Appointment appointment, bool available)
+        +void update_patient_priority(Patient patient, int priority)
+        +List[Appointment] prioritize_appointments()
+        +List[Appointment] suggest_off_peak_slots(Patient patient)
+    }
+    class TwilioClient{
+        +void send_call(Appointment appointment)
+        +void send_text(Appointment appointment)
+        +void handle_patient_response(Appointment appointment, str response)
+        +void send_reminder(Appointment appointment)
+    }
+    class MachineLearning{
+        +void train_model()
+        +str predict_patient_behavior(Patient patient)
+        +void update_model(Appointment appointment, str response)
+    }
+    class Encryption{
+        +str encrypt_data(str data)
+        +str decrypt_data(str encrypted_data)
+    }
+    Patient "1" -- "0..*" Appointment: has
+    Scheduler "1" -- "0..*" Appointment: has
+    TwilioClient "1" -- "0..*" Appointment: has
+    MachineLearning "1" -- "0..*" Appointment: has

@@ -1,0 +1,33 @@
+sequenceDiagram
+    participant M as Main
+    participant R as Routes
+    participant D as Database
+    participant S as Scheduler
+    participant T as TwilioClient
+    participant ML as MachineLearning
+    participant E as Encryption
+    M->>R: Start application
+    R->>D: Connect to database
+    R->>S: Get available slots
+    S->>D: Query database for available slots
+    D->>S: Return available slots
+    R->>M: Render available slots
+    M->>R: User selects slot
+    R->>S: Update slot availability
+    S->>D: Update database with slot availability
+    R->>T: Send call and text to patient
+    T->>D: Query database for patient details
+    D->>T: Return patient details
+    T->>T: Send call and text to patient
+    T->>R: Render confirmation page
+    R->>S: Update appointment status
+    S->>D: Update database with appointment status
+    R->>T: Handle patient response
+    T->>ML: Update model with patient response
+    ML->>ML: Train model
+    R->>T: Send reminder
+    T->>D: Query database for appointment details
+    D->>T: Return appointment details
+    T->>T: Send reminder to patient
+    T->>R: Render reminder page
+    R->>M: End application
